@@ -1,5 +1,5 @@
 // ironboy, Node Hill, 2019,
-// version 2.3
+// version 2.4
 
 const fs = require('fs');
 const path = require('path');
@@ -81,7 +81,7 @@ async function run() {
       }
       catch (e) {
         t.status = 'failed';
-        failedAt = (e.stack + '').split(':')[2] / 1;
+        failedAt = (e.stack + '').split('.js:')[1].split(':')[0] / 1;
         t.error = e + '';
       }
       t.tests = source[co].split('\n').map(
@@ -95,8 +95,7 @@ async function run() {
       all.push(t);
     }
   }
-  let niceDate = new Date().toLocaleDateString() + '_' +
-    new Date().toLocaleTimeString().split(':').join('.');
+  let niceDate = getNiceDate();
   let fileName = path.join(__dirname, 'logs', niceDate) + '.html';
   let jsonFileName = fileName.split('.html').join('.json')
   fs.writeFileSync(fileName, displayTemplate(niceDate, all), 'utf-8');
@@ -179,4 +178,19 @@ function render(niceDate, all) {
   `;
   document.body.append(div);
   document.body.append(footer);
+}
+
+// old school nice date
+// not depending on locale
+function getNiceDate(){
+  let d = new Date();
+  let t = '';
+  t += d.getFullYear();
+  t += ((d.getMonth() + 1) + '').padStart(2, '0');
+  t += (d.getDate() + '').padStart(2, '0');
+  t += '_';
+  t += (d.getHours() + '').padStart(2, '0') + '.';
+  t += (d.getMinutes() + '').padStart(2, '0') + '.';
+  t += (d.getSeconds() + '').padStart(2, '0');
+  return t;
 }
