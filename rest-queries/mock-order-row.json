@@ -1,0 +1,32 @@
+[
+    {
+        "quantity": 1,
+        "text": "I'M COOL",
+        "image": "stamp.jpg",
+        "oktoshare": 1
+    },
+    {
+        "quantity": 2,
+        "text": "SOON MARRIED",
+        "image": "flowery.jpg",
+        "oktoshare": 1
+    },
+    {
+        "quantity": 2,
+        "text": "HAPPY ME",
+        "image": "smiley.jpg",
+        "oktoshare": 1
+    },
+    {
+        "quantity": 5,
+        "text": "I'M WONDER WOMAN",
+        "image": "wonderwoman.jpg",
+        "oktoshare": 1
+    },
+    {
+        "quantity": 30,
+        "text": "W'ONT SHARE",
+        "image": "cake&tart.jpg",
+        "oktoshare": 0
+    }
+]

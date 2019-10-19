@@ -9,5 +9,11 @@ module.exports = ({ assert, response, store }) => ({
     setup() {
       // Store the mockusers in the db (setup for next step/query)
       store.mockOrderRow = require('./mock-order-row.json');
+
+      //Reuse the mockUsers ids when creating new orders
+      store.mockOrderRow.forEach((orderrow, index) => {
+        orderrow.orders_id = store.mockOrders[index].id;
+      });
+      console.log("BEFORE MAP store.mockOrders", store.mockOrders)
     }
   });
