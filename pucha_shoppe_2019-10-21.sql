@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.37)
 # Database: pucha_shoppe
-# Generation Time: 2019-10-16 17:18:01 +0000
+# Generation Time: 2019-10-21 14:33:22 +0000
 # ************************************************************
 
 
@@ -20,6 +20,18 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
+# Dump of table allowtodesign
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `allowtodesign`;
+
+CREATE TABLE `allowtodesign` (
+   `text` VARCHAR(50) NULL DEFAULT NULL,
+   `image` VARCHAR(50) NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
+
+
 # Dump of table order_row
 # ------------------------------------------------------------
 
@@ -27,22 +39,24 @@ DROP TABLE IF EXISTS `order_row`;
 
 CREATE TABLE `order_row` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `users_id` int(11) unsigned NOT NULL,
-  `products_id` int(11) unsigned NOT NULL,
+  `orders_id` int(11) unsigned NOT NULL,
   `quantity` int(11) DEFAULT NULL,
   `text` varchar(50) DEFAULT NULL,
   `image` varchar(50) DEFAULT NULL,
+  `oktoshare` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `order_row` WRITE;
 /*!40000 ALTER TABLE `order_row` DISABLE KEYS */;
 
-INSERT INTO `order_row` (`id`, `users_id`, `products_id`, `quantity`, `text`, `image`)
+INSERT INTO `order_row` (`id`, `orders_id`, `quantity`, `text`, `image`, `oktoshare`)
 VALUES
-	(1,1011,10003,1,'I\'M COOL','stamp.jpg'),
-	(2,1013,10001,2,'SOON MARRIED','flowery.jpg'),
-	(3,1014,10002,2,NULL,NULL);
+	(98,1279,1,'I\'M COOL','stamp.jpg',1),
+	(99,1280,2,'SOON MARRIED','flowery.jpg',1),
+	(100,1281,2,'HAPPY ME','smiley.jpg',1),
+	(101,1282,5,'I\'M WONDER WOMAN','wonderwoman.jpg',1),
+	(102,1283,30,'W\'ONT SHARE','cake&tart.jpg',0);
 
 /*!40000 ALTER TABLE `order_row` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -56,21 +70,22 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `users_id` int(11) unsigned NOT NULL,
-  `package` varchar(11) DEFAULT NULL,
-  `sent` varchar(11) DEFAULT NULL,
-  `delivered` varchar(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `users_id` (`users_id`)
+  `packed` tinyint(1) NOT NULL,
+  `sent` tinyint(1) NOT NULL,
+  `delivered` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
 
-INSERT INTO `orders` (`id`, `users_id`, `package`, `sent`, `delivered`)
+INSERT INTO `orders` (`id`, `users_id`, `packed`, `sent`, `delivered`)
 VALUES
-	(1,1011,'yes','yes','yes'),
-	(2,1013,'yes','yes','yes'),
-	(3,1014,'yes','no','no');
+	(1279,1258,1,1,1),
+	(1280,1259,1,1,1),
+	(1281,1260,1,1,0),
+	(1282,1261,1,0,0),
+	(1283,1262,1,1,0);
 
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -112,29 +127,40 @@ DROP TABLE IF EXISTS `users`;
 
 CREATE TABLE `users` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `first_name` varchar(50) DEFAULT NULL,
-  `last_name` varchar(50) DEFAULT NULL,
+  `firstName` varchar(50) DEFAULT NULL,
+  `lastName` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `password` varchar(50) DEFAULT NULL,
-  `address` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `address`)
+INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `password`)
 VALUES
-	(1011,'Jyoti','Ollarenshaw','jollarenshaw0@wikia.com','EyepxpnYjV','mockgatan 12 malmö'),
-	(1012,'Chaunce','Vatini','cvatini1@studiopress.com','iSNbZV','bergsgatan 23 sturup'),
-	(1013,'Maurine','Gerardet','mgerardet2@boston.com','g9m0Yf','koljagatan 55 borås'),
-	(1014,'Harri','Denniss','hdenniss3@twitpic.com','HJY8wAnQ9','jeppgatan 20 malmö'),
-	(1015,'Nolie','Fabbri','nfabbri4@noaa.gov','y9Sjfx','lugnaregatan 8 lund');
+	(1258,'Jyoti','Ollarenshaw','jollarenshaw0@wikia.com','EyepxpnYjV'),
+	(1259,'Chaunce','Vatini','cvatini1@studiopress.com','iSNbZV'),
+	(1260,'Maurine','Gerardet','mgerardet2@boston.com','g9m0Yf'),
+	(1261,'Harri','Denniss','hdenniss3@twitpic.com','HJY8wAnQ9'),
+	(1262,'Nolie','Fabbri','nfabbri4@noaa.gov','y9Sjfx');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
+
+
+# Replace placeholder table for allowtodesign with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `allowtodesign`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `allowtodesign`
+AS SELECT
+   `order_row`.`text` AS `text`,
+   `order_row`.`image` AS `image`
+FROM `order_row` where (`order_row`.`oktoshare` = 1);
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
