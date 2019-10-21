@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.37)
 # Database: pucha_shoppe
-# Generation Time: 2019-10-21 14:33:22 +0000
+# Generation Time: 2019-10-21 19:55:06 +0000
 # ************************************************************
 
 
@@ -52,11 +52,11 @@ LOCK TABLES `order_row` WRITE;
 
 INSERT INTO `order_row` (`id`, `orders_id`, `quantity`, `text`, `image`, `oktoshare`)
 VALUES
-	(98,1279,1,'I\'M COOL','stamp.jpg',1),
-	(99,1280,2,'SOON MARRIED','flowery.jpg',1),
-	(100,1281,2,'HAPPY ME','smiley.jpg',1),
-	(101,1282,5,'I\'M WONDER WOMAN','wonderwoman.jpg',1),
-	(102,1283,30,'W\'ONT SHARE','cake&tart.jpg',0);
+	(108,1289,1,'I\'M COOL','stamp.jpg',1),
+	(109,1290,2,'SOON MARRIED','flowery.jpg',1),
+	(110,1291,2,'HAPPY ME','smiley.jpg',1),
+	(111,1292,5,'I\'M WONDER WOMAN','wonderwoman.jpg',1),
+	(112,1293,30,'W\'ONT SHARE','cake&tart.jpg',0);
 
 /*!40000 ALTER TABLE `order_row` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -81,11 +81,11 @@ LOCK TABLES `orders` WRITE;
 
 INSERT INTO `orders` (`id`, `users_id`, `packed`, `sent`, `delivered`)
 VALUES
-	(1279,1258,1,1,1),
-	(1280,1259,1,1,1),
-	(1281,1260,1,1,0),
-	(1282,1261,1,0,0),
-	(1283,1262,1,1,0);
+	(1289,1268,1,1,1),
+	(1290,1269,1,1,1),
+	(1291,1270,1,1,0),
+	(1292,1271,1,0,0),
+	(1293,1272,1,1,0);
 
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -139,11 +139,11 @@ LOCK TABLES `users` WRITE;
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `password`)
 VALUES
-	(1258,'Jyoti','Ollarenshaw','jollarenshaw0@wikia.com','EyepxpnYjV'),
-	(1259,'Chaunce','Vatini','cvatini1@studiopress.com','iSNbZV'),
-	(1260,'Maurine','Gerardet','mgerardet2@boston.com','g9m0Yf'),
-	(1261,'Harri','Denniss','hdenniss3@twitpic.com','HJY8wAnQ9'),
-	(1262,'Nolie','Fabbri','nfabbri4@noaa.gov','y9Sjfx');
+	(1268,'Jyoti','Ollarenshaw','jollarenshaw0@wikia.com','EyepxpnYjV'),
+	(1269,'Chaunce','Vatini','cvatini1@studiopress.com','iSNbZV'),
+	(1270,'Maurine','Gerardet','mgerardet2@boston.com','g9m0Yf'),
+	(1271,'Harri','Denniss','hdenniss3@twitpic.com','HJY8wAnQ9'),
+	(1272,'Nolie','Fabbri','nfabbri4@noaa.gov','y9Sjfx');
 
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;

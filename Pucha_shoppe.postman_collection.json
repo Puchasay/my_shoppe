@@ -792,14 +792,14 @@
 							"    ];",
 							"    ",
 							"    ",
-							"    // Add userids to mockDataOrders",
+							"    // Add ordersid to mockDataOrderRow",
 							"    // a) Read the mock users that we added insertId to in step 3",
 							" ",
 							"    let  mockDataOrderss = JSON.parse(pm.environment.get('mockDataOrders'));",
-							"    // b) Loop through the orders",
+							"    // b) Loop through the orderrow",
 							"    mockDataOrderRow.forEach((orderrow, index) => {",
-							"       // Add a user id to each order",
-							"       // (will only work if there are not more orders than users)",
+							"       // Add a orders id to each order row",
+							"       // (will only work if there are not more order row than orders)",
 							"       orderrow.orders_id = mockDataOrderss[index].id; ",
 							"    });",
 							"    ",
@@ -967,7 +967,7 @@
 			"response": []
 		},
 		{
-			"name": "13.a. what customer can order",
+			"name": "13.a. what customer can order (with mockdata)",
 			"event": [
 				{
 					"listen": "test",
@@ -1105,36 +1105,7 @@
 					"script": {
 						"id": "91f039a1-d949-4c13-914a-790844a9cc4a",
 						"exec": [
-							"if (!pm.environment.has(\"mockDataAllowDesign\")) {",
-							"    let mockDataAllowDesign = [",
-							"    {",
-							"        \"text\": \"I'M COOL\",",
-							"        \"image\": \"stamp.jpg\"",
-							"    },",
-							"    {",
-							"        \"text\": \"SOON MARRIED\",",
-							"        \"image\": \"flowery.jpg\"",
-							"    },",
-							"    {",
-							"        \"text\": \"HAPPY ME\",",
-							"        \"image\": \"smiley.jpg\"",
-							"    },",
-							"    {",
-							"        \"text\": \"I'M WONDER WOMAN\",",
-							"        \"image\": \"wonderwoman.jpg\"",
-							"    }",
-							"];",
-							"    pm.environment.set(\"counter\", 0);",
-							"    pm.environment.set(\"mockDataAllowDesign\", JSON.stringify(mockDataAllowDesign));",
-							" }",
-							" // Reading/parsing environment variables back to local variables",
-							" let counter = pm.environment.get(\"counter\") / 1;",
-							" let mockDataAllowDesign = JSON.parse(pm.environment.get(\"mockDataAllowDesign\"));",
-							" let {text, image} = mockDataAllowDesign[counter]",
-							" // Save to environemnt for use in query",
-							" pm.environment.set('text', text);",
-							" pm.environment.set('image', image);",
-							" "
+							""
 						],
 						"type": "text/javascript"
 					}
