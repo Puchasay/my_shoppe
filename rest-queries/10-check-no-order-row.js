@@ -3,14 +3,14 @@ module.exports = ({ assert, response, store }) => ({
     path: 'order_row',
     method: 'get',
     test() {
-     // Check that there are no users in DB
+     // Check that there are no order row in DB
      assert.deepEqual(response, []);
     },
     setup() {
-      // Store the mockusers in the db (setup for next step/query)
+      // Store the mockOrderRow in the db (setup for next step/query)
       store.mockOrderRow = require('./mock-order-row.json');
 
-      //Reuse the mockUsers ids when creating new orders
+      //Reuse the mockOrders ids when creating new order row
       store.mockOrderRow.forEach((orderrow, index) => {
         orderrow.orders_id = store.mockOrders[index].id;
       });

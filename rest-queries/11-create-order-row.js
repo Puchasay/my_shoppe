@@ -6,10 +6,10 @@ module.exports = ({ response, store, repeat, i }) => ({
     test() {
       // check that a row was inserted in the db
       response.affectedRows.should.equal(1);
-      // store the inserted id in mockUsers
+      // store the inserted id in mockOrderRow
       store.mockOrderRow[i].id = response.insertId;
       // repeat this step/query as long as
-      // there a more mockUsers to insert
+      // there a more mockOrderRow to insert
       if(store.mockOrderRow[i + 1]){
         repeat();
       }
