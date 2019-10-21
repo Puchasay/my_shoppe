@@ -1,0 +1,1182 @@
+{
+	"info": {
+		"_postman_id": "44c9e662-fbf7-4f8f-a96d-c4e583a69885",
+		"name": "Pucha_shoppe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. delete all users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							"let response = pm.response.json();",
+							"",
+							"pm.test('warninCount should be 0', function(){",
+							"    pm.expect(response.warningCount).to.equal(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "2. check no users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							"let response = pm.response.json();",
+							"",
+							"pm.test('no users should be left in db', function(){",
+							"    pm.expect(response).to.deep.equal([]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. create 5 users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variables back to local variables",
+							"let counter = pm.environment.get(\"counter\") / 1;",
+							"let mockData = JSON.parse(pm.environment.get(\"mockData\"));",
+							"",
+							"// Add the insert id to the mockData and save to environment",
+							"mockData[counter].id = response.insertId;",
+							"pm.environment.set('mockData', JSON.stringify(mockData));",
+							"",
+							"// Test affectedRows",
+							"pm.test('affectedRows should be 1', function(){",
+							"    pm.expect(response.affectedRows).to.equal(1);",
+							"});",
+							"",
+							"// Increment the counter and save to environment",
+							"counter++;",
+							"pm.environment.set('counter', counter);",
+							"",
+							"// Run request again if more mockdata",
+							"if(mockData[counter]){",
+							"    postman.setNextRequest('3. create 5 users')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91f039a1-d949-4c13-914a-790844a9cc4a",
+						"exec": [
+							"// Setting mockdata and counter as environement variables",
+							"// Note: Environement variables can only be strings!",
+							"if (!pm.environment.has(\"mockData\")) {",
+							"    let mockData = [",
+							"      {",
+							"        \"firstName\": \"Jyoti\",",
+							"        \"lastName\": \"Ollarenshaw\",",
+							"        \"email\": \"jollarenshaw0@wikia.com\",",
+							"        \"password\": \"EyepxpnYjV\"",
+							"      },",
+							"      {",
+							"        \"firstName\": \"Chaunce\",",
+							"        \"lastName\": \"Vatini\",",
+							"        \"email\": \"cvatini1@studiopress.com\",",
+							"        \"password\": \"iSNbZV\"",
+							"      },",
+							"      {",
+							"        \"firstName\": \"Maurine\",",
+							"        \"lastName\": \"Gerardet\",",
+							"        \"email\": \"mgerardet2@boston.com\",",
+							"        \"password\": \"g9m0Yf\"",
+							"      },",
+							"      {",
+							"        \"firstName\": \"Harri\",",
+							"        \"lastName\": \"Denniss\",",
+							"        \"email\": \"hdenniss3@twitpic.com\",",
+							"        \"password\": \"HJY8wAnQ9\"",
+							"      },",
+							"      {",
+							"        \"firstName\": \"Nolie\",",
+							"        \"lastName\": \"Fabbri\",",
+							"        \"email\": \"nfabbri4@noaa.gov\",",
+							"        \"password\": \"y9Sjfx\"",
+							"      }",
+							"    ];",
+							"    pm.environment.set(\"counter\", 0);",
+							"    pm.environment.set(\"mockData\", JSON.stringify(mockData));",
+							" }",
+							"",
+							" // Reading/parsing environment variables back to local variables",
+							" let counter = pm.environment.get(\"counter\") / 1;",
+							" let mockData = JSON.parse(pm.environment.get(\"mockData\"));",
+							" let {firstName, lastName, email, password} = mockData[counter]",
+							" // Save to environemnt for use in query",
+							" pm.environment.set('firstName', firstName);",
+							" pm.environment.set('lastName', lastName);",
+							" pm.environment.set('email', email);",
+							" pm.environment.set('password', password);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"firstName\": \"{{firstName}}\",\n  \"lastName\": \"{{lastName}}\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. check all users inserted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variable back to local variable",
+							"let mockData = JSON.parse(pm.environment.get(\"mockData\"));",
+							"",
+							"// Test expected length",
+							"pm.test('length should be equal to mock data length', function(){",
+							"    pm.expect(response.length).to.equal(mockData.length);",
+							"});",
+							"",
+							"// Test that the response data is deep equal to mockdata",
+							"pm.test('data in db should be same as mock data', function(){",
+							"    pm.expect(response).to.deep.equal(mockData);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91f039a1-d949-4c13-914a-790844a9cc4a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. delete all orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							"let response = pm.response.json();",
+							"",
+							"pm.test('warninCount should be 0', function(){",
+							"    pm.expect(response.warningCount).to.equal(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. check no orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							"let response = pm.response.json();",
+							"",
+							"pm.test('no users should be left in db', function(){",
+							"    pm.expect(response).to.deep.equal([]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "7. create orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variables back to local variables",
+							"let counter = pm.environment.get(\"counter\") / 1;",
+							"let mockDataOrders = JSON.parse(pm.environment.get(\"mockDataOrders\"));",
+							"",
+							"// Add the insert id to the mockData and save to environment",
+							"mockDataOrders[counter].id = response.insertId;",
+							"pm.environment.set('mockDataOrders', JSON.stringify(mockDataOrders));",
+							"",
+							"// Test affectedRows",
+							"pm.test('affectedRows should be 1', function(){",
+							"    pm.expect(response.affectedRows).to.equal(1);",
+							"});",
+							"",
+							"// Increment the counter and save to environment",
+							"counter++;",
+							"pm.environment.set('counter', counter);",
+							"",
+							"// Run request again if more mockdata",
+							"if(mockDataOrders[counter]){",
+							"    postman.setNextRequest('7. create orders')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91f039a1-d949-4c13-914a-790844a9cc4a",
+						"exec": [
+							"// Setting mockdata and counter as environement variables",
+							"// Note: Environement variables can only be strings!",
+							"if (!pm.environment.has(\"mockDataOrders\")) {",
+							"    let mockDataOrders = [",
+							"        {",
+							"            \"packed\": 1,",
+							"            \"sent\": 1,",
+							"            \"delivered\": 1",
+							"        },",
+							"        {",
+							"            \"packed\": 1,",
+							"            \"sent\": 1,",
+							"            \"delivered\": 1",
+							"        },",
+							"        {",
+							"            \"packed\": 1,",
+							"            \"sent\": 1,",
+							"            \"delivered\": 0",
+							"        },",
+							"        {",
+							"            \"packed\": 1,",
+							"            \"sent\": 0,",
+							"            \"delivered\": 0",
+							"        },",
+							"        {",
+							"            \"packed\": 1,",
+							"            \"sent\": 1,",
+							"            \"delivered\": 0",
+							"        }",
+							"    ];",
+							"    ",
+							"    ",
+							"    // Add userids to mockDataOrders",
+							"    // a) Read the mock users that we added insertId to in step 3",
+							"    let mockDataUsers = JSON.parse(pm.environment.get('mockData'));",
+							"    // b) Loop through the orders",
+							"    mockDataOrders.forEach((order, index) => {",
+							"       // Add a user id to each order",
+							"       // (will only work if there are not more orders than users)",
+							"       order.users_id = mockDataUsers[index].id; ",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"counter\", 0);",
+							"    pm.environment.set(\"mockDataOrders\", JSON.stringify(mockDataOrders));",
+							"    console.log(\"CREATED order mock data\", mockDataOrders);",
+							" }",
+							"",
+							" // Reading/parsing environment variables back to local variables",
+							" let counter = pm.environment.get(\"counter\") / 1;",
+							" let mockDataOrders = JSON.parse(pm.environment.get(\"mockDataOrders\"));",
+							" let {packed,sent, delivered, users_id} = mockDataOrders[counter]",
+							" // Save to environemnt for use in query",
+							" pm.environment.set('packed', packed);",
+							" pm.environment.set('sent', sent);",
+							" pm.environment.set('delivered', delivered);",
+							" pm.environment.set('users_id', users_id);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"packed\": \"{{packed}}\",\n        \"sent\": \"{{sent}}\",\n        \"delivered\": \"{{delivered}}\",\n        \"users_id\": \"{{users_id}}\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "8. check all orders inserted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variable back to local variable",
+							"let mockDataOrders = JSON.parse(pm.environment.get(\"mockDataOrders\"));",
+							"",
+							"// Test expected length",
+							"pm.test('length should be equal to mock data length', function(){",
+							"    pm.expect(response.length).to.equal(mockDataOrders.length);",
+							"});",
+							"",
+							"// Test that the response data is deep equal to mockdata",
+							"pm.test('data in db should be same as mock data', function(){",
+							"    pm.expect(response).to.deep.equal(mockDataOrders);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91f039a1-d949-4c13-914a-790844a9cc4a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "9. delete all order row",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							"let response = pm.response.json();",
+							"",
+							"pm.test('warninCount should be 0', function(){",
+							"    pm.expect(response.warningCount).to.equal(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/order_row",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"order_row"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10. check no order row",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							"let response = pm.response.json();",
+							"",
+							"pm.test('no users should be left in db', function(){",
+							"    pm.expect(response).to.deep.equal([]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/order_row",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"order_row"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "11. create order row",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "43589d1f-1f78-493a-b72f-52aecd7e4994",
+						"exec": [
+							"// Setting mockdata and counter as environement variables",
+							"// Note: Environement variables can only be strings!",
+							"if (!pm.environment.has(\"mockDataOrderRow\")) {",
+							"    let mockDataOrderRow = [",
+							"        {",
+							"        \"quantity\": 1,",
+							"        \"text\": \"I'M COOL\",",
+							"        \"image\": \"stamp.jpg\",",
+							"        \"oktoshare\": 1",
+							"    },",
+							"    {",
+							"        \"quantity\": 2,",
+							"        \"text\": \"SOON MARRIED\",",
+							"        \"image\": \"flowery.jpg\",",
+							"        \"oktoshare\": 1",
+							"    },",
+							"    {",
+							"        \"quantity\": 2,",
+							"        \"text\": \"HAPPY ME\",",
+							"        \"image\": \"smiley.jpg\",",
+							"        \"oktoshare\": 1",
+							"    },",
+							"    {",
+							"        \"quantity\": 5,",
+							"        \"text\": \"I'M WONDER WOMAN\",",
+							"        \"image\": \"wonderwoman.jpg\",",
+							"        \"oktoshare\": 1",
+							"    },",
+							"    {",
+							"        \"quantity\": 30,",
+							"        \"text\": \"W'ONT SHARE\",",
+							"        \"image\": \"cake&tart.jpg\",",
+							"        \"oktoshare\": 0",
+							"    }",
+							"    ];",
+							"    ",
+							"    ",
+							"    // Add userids to mockDataOrders",
+							"    // a) Read the mock users that we added insertId to in step 3",
+							" ",
+							"    let  mockDataOrderss = JSON.parse(pm.environment.get('mockDataOrders'));",
+							"    // b) Loop through the orders",
+							"    mockDataOrderRow.forEach((orderrow, index) => {",
+							"       // Add a user id to each order",
+							"       // (will only work if there are not more orders than users)",
+							"       orderrow.orders_id = mockDataOrderss[index].id; ",
+							"    });",
+							"    ",
+							"    pm.environment.set(\"counter\", 0);",
+							"    pm.environment.set(\"mockDataOrderRow\", JSON.stringify(mockDataOrderRow));",
+							"    console.log(\"CREATED order row mock data\", mockDataOrderRow);",
+							" }",
+							"",
+							" // Reading/parsing environment variables back to local variables",
+							" let counter = pm.environment.get(\"counter\") / 1;",
+							" let mockDataOrderRow = JSON.parse(pm.environment.get(\"mockDataOrderRow\"));",
+							" let {orders_id, quantity, text, image, oktoshare} = mockDataOrderRow[counter]",
+							" // Save to environemnt for use in query",
+							" pm.environment.set('orders_id', orders_id);",
+							" pm.environment.set('quantity', quantity);",
+							" pm.environment.set('text', text);",
+							" pm.environment.set('image', image);",
+							" pm.environment.set('oktoshare', oktoshare);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "ddaaeba2-9612-4ebb-a3b2-e379c6ed2e15",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variables back to local variables",
+							"let counter = pm.environment.get(\"counter\") / 1;",
+							"let mockDataOrderRow = JSON.parse(pm.environment.get(\"mockDataOrderRow\"));",
+							"",
+							"// Add the insert id to the mockData and save to environment",
+							"mockDataOrderRow[counter].id = response.insertId;",
+							"pm.environment.set('mockDataOrderRow', JSON.stringify(mockDataOrderRow));",
+							"",
+							"// Test affectedRows",
+							"pm.test('affectedRows should be 1', function(){",
+							"    pm.expect(response.affectedRows).to.equal(1);",
+							"});",
+							"",
+							"// Increment the counter and save to environment",
+							"counter++;",
+							"pm.environment.set('counter', counter);",
+							"",
+							"// Run request again if more mockdata",
+							"if(mockDataOrderRow[counter]){",
+							"    postman.setNextRequest('11. create order row')",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"orders_id\": \"{{orders_id}}\",\n        \"quantity\": \"{{quantity}}\",\n        \"text\": \"{{text}}\",\n        \"image\": \"{{image}}\",\n        \"oktoshare\": \"{{oktoshare}}\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/order_row",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"order_row"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "12. check all order row inserted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variable back to local variable",
+							"let mockDataOrderRow = JSON.parse(pm.environment.get(\"mockDataOrderRow\"));",
+							"",
+							"// Test expected length",
+							"pm.test('length should be equal to mock data length', function(){",
+							"    pm.expect(response.length).to.equal(mockDataOrderRow.length);",
+							"});",
+							"",
+							"// Test that the response data is deep equal to mockdata",
+							"pm.test('data in db should be same as mock data', function(){",
+							"    pm.expect(response).to.deep.equal(mockDataOrderRow);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91f039a1-d949-4c13-914a-790844a9cc4a",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/order_row",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"order_row"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13.a. what customer can order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variable back to local variable",
+							"let mockDataAllowDesign = JSON.parse(pm.environment.get(\"mockDataAllowDesign\"));",
+							"",
+							"// Test expected length",
+							"pm.test('length should be equal to mock data length', function(){",
+							"    pm.expect(response.length).to.equal(mockDataAllowDesign.length);",
+							"});",
+							"",
+							"// Test that the response data is deep equal to mockdata",
+							"pm.test('data in db should be same as mock data', function(){",
+							"    pm.expect(response).to.deep.equal(mockDataAllowDesign);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91f039a1-d949-4c13-914a-790844a9cc4a",
+						"exec": [
+							"if (!pm.environment.has(\"mockDataAllowDesign\")) {",
+							"    let mockDataAllowDesign = [",
+							"    {",
+							"        \"text\": \"I'M COOL\",",
+							"        \"image\": \"stamp.jpg\"",
+							"    },",
+							"    {",
+							"        \"text\": \"SOON MARRIED\",",
+							"        \"image\": \"flowery.jpg\"",
+							"    },",
+							"    {",
+							"        \"text\": \"HAPPY ME\",",
+							"        \"image\": \"smiley.jpg\"",
+							"    },",
+							"    {",
+							"        \"text\": \"I'M WONDER WOMAN\",",
+							"        \"image\": \"wonderwoman.jpg\"",
+							"    }",
+							"];",
+							"    pm.environment.set(\"counter\", 0);",
+							"    pm.environment.set(\"mockDataAllowDesign\", JSON.stringify(mockDataAllowDesign));",
+							" }",
+							" // Reading/parsing environment variables back to local variables",
+							" let counter = pm.environment.get(\"counter\") / 1;",
+							" let mockDataAllowDesign = JSON.parse(pm.environment.get(\"mockDataAllowDesign\"));",
+							" let {text, image} = mockDataAllowDesign[counter]",
+							" // Save to environemnt for use in query",
+							" pm.environment.set('text', text);",
+							" pm.environment.set('image', image);",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/allowtodesign",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"allowtodesign"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "13.b. what customer can order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e085dee0-d901-431a-89d6-affaeb5d55db",
+						"exec": [
+							"// The response as json",
+							" let response = pm.response.json();",
+							"",
+							"// Reading/parsing environment variable back to local variable",
+							"//let expected = store.mockDataOrderRow",
+							"let expected = JSON.parse(pm.environment.get(\"mockDataOrderRow\"))",
+							"        .filter(row => row.oktoshare === 1)",
+							"        .map(row => ({text: row.text, image: row.image}));",
+							"",
+							"// Test expected length",
+							"pm.test('length should be equal to mock data length', function(){",
+							"    pm.expect(response.length).to.equal(expected.length);",
+							"});",
+							"",
+							"// Test that the response data is deep equal to mockdata",
+							"pm.test('data in db should be same as mock data', function(){",
+							"    pm.expect(response).to.deep.equal(expected);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91f039a1-d949-4c13-914a-790844a9cc4a",
+						"exec": [
+							"if (!pm.environment.has(\"mockDataAllowDesign\")) {",
+							"    let mockDataAllowDesign = [",
+							"    {",
+							"        \"text\": \"I'M COOL\",",
+							"        \"image\": \"stamp.jpg\"",
+							"    },",
+							"    {",
+							"        \"text\": \"SOON MARRIED\",",
+							"        \"image\": \"flowery.jpg\"",
+							"    },",
+							"    {",
+							"        \"text\": \"HAPPY ME\",",
+							"        \"image\": \"smiley.jpg\"",
+							"    },",
+							"    {",
+							"        \"text\": \"I'M WONDER WOMAN\",",
+							"        \"image\": \"wonderwoman.jpg\"",
+							"    }",
+							"];",
+							"    pm.environment.set(\"counter\", 0);",
+							"    pm.environment.set(\"mockDataAllowDesign\", JSON.stringify(mockDataAllowDesign));",
+							" }",
+							" // Reading/parsing environment variables back to local variables",
+							" let counter = pm.environment.get(\"counter\") / 1;",
+							" let mockDataAllowDesign = JSON.parse(pm.environment.get(\"mockDataAllowDesign\"));",
+							" let {text, image} = mockDataAllowDesign[counter]",
+							" // Save to environemnt for use in query",
+							" pm.environment.set('text', text);",
+							" pm.environment.set('image', image);",
+							" "
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/rest/allowtodesign",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"rest",
+						"allowtodesign"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
